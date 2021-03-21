@@ -1,0 +1,25 @@
+key: yandex
+title: Yandex
+description: Allows the users to authenticate with Yandex
+author: ezgaming.gg
+logo: https://yastatic.net/q/logoaas/v1/Yandex.svg
+color: red darken-4
+website: https://yandex.ru/dev/oauth/
+isAvailable: true
+useForm: false
+props:
+  clientId:
+    type: String
+    title: Client ID
+    hint: Application Client ID
+    order: 1
+  clientSecret:
+    type: String
+    title: Client Secret
+    hint: Application Client Secret
+    order: 2
+  authenticationDomain:
+    type: String
+    title: Authentication domain
+    hint: Domain you're willing to authenticate against
+    order: 3
