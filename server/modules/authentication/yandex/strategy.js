@@ -39,13 +39,13 @@ const { OAuth2Strategy, InternalOAuthError } = require('passport-oauth')
  * @api public
  */
 function Strategy(options, verify) {
-  options = options || {};
+  options = options || {}
   options.authorizationURL =
-    options.authorizationURL || "https://oauth.yandex.ru/authorize";
-  options.tokenURL = options.tokenURL || "https://oauth.yandex.ru/token";
+    options.authorizationURL || 'https://oauth.yandex.ru/authorize'
+  options.tokenURL = options.tokenURL || 'https://oauth.yandex.ru/token'
 
-  OAuth2Strategy.call(this, options, verify);
-  this.name = "yandex";
+  OAuth2Strategy.call(this, options, verify)
+  this.name = 'yandex'
 
   // NOTE: Due to OAuth 2.0 implementations arising at different points and
   //       drafts in the specification process, the parameter used to denote the
@@ -53,13 +53,13 @@ function Strategy(options, verify) {
   //       the parameter is named "access_token".  However, yandex's
   //       implementation expects it to be named "oauth_token".  For further
   //       information, refer to: http://api.yandex.ru/oauth/doc/dg/concepts/ya-oauth-intro.xml
-  this._oauth2.setAccessTokenName("oauth_token");
+  this._oauth2.setAccessTokenName('oauth_token')
 }
 
 /**
  * Inherit from `OAuth2Strategy`.
  */
-util.inherits(Strategy, OAuth2Strategy);
+util.inherits(Strategy, OAuth2Strategy)
 
 /**
  * Retrieve user profile from Yandex.
@@ -79,50 +79,50 @@ util.inherits(Strategy, OAuth2Strategy);
  * @param {Function} done
  */
 Strategy.prototype.userProfile = function (accessToken, done) {
-  var url = "https://login.yandex.ru/info?format=json";
+  var url = 'https://login.yandex.ru/info?format=json'
 
   this._oauth2.get(url, accessToken, function (err, body, res) {
     if (err) {
-      return done(new InternalOAuthError("failed to fetch user profile", err));
+      return done(new InternalOAuthError('failed to fetch user profile', err))
     }
 
     try {
-      var json = JSON.parse(body);
+      var json = JSON.parse(body)
 
-      var profile = { provider: "yandex" };
-      profile.id = json.id;
-      profile.username = json.display_name;
-      profile.displayName = json.display_name;
+      var profile = { provider: 'yandex' }
+      profile.id = json.id
+      profile.username = json.display_name
+      profile.displayName = json.display_name
       if (json.real_name) {
-        var tokens = json.real_name.split(" ", 2);
-        profile.name = { familyName: tokens[0], givenName: tokens[1] };
+        var tokens = json.real_name.split(' ', 2)
+        profile.name = { familyName: tokens[0], givenName: tokens[1] }
       } else {
-        profile.name = {};
+        profile.name = {}
       }
-      profile.gender = json.sex;
-      profile.emails = [{ value: json.default_email }];
+      profile.gender = json.sex
+      profile.emails = [{ value: json.default_email }]
 
       if (json.default_avatar_id) {
         profile.photos = [
           {
             value:
-              "https://avatars.yandex.net/get-yapic/" +
+              'https://avatars.yandex.net/get-yapic/' +
               json.default_avatar_id +
-              "/islands-200",
-            type: "thumbnail",
-          },
-        ];
+              '/islands-200',
+            type: 'thumbnail'
+          }
+        ]
       }
 
-      profile._raw = body;
-      profile._json = json;
+      profile._raw = body
+      profile._json = json
 
-      done(null, profile);
+      done(null, profile)
     } catch (e) {
-      done(e);
+      done(e)
     }
-  });
-};
+  })
+}
 
 /**
  * Expose `Strategy`.

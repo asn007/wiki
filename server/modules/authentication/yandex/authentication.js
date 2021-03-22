@@ -5,7 +5,6 @@
 // ------------------------------------
 
 const YandexStrategy = require('./strategy')
-const _ = require('lodash')
 
 module.exports = {
   init (passport, conf) {
@@ -16,24 +15,23 @@ module.exports = {
         callbackURL: conf.callbackURL,
         passReqToCallback: true
       }, async (req, accessToken, refreshToken, profile, cb) => {
-        if (profile._json.default_email.split('@')[1] !== conf.authenticationDomain)
-          return cb(new Error('Authentication domain does not match!'), null)
+        if (profile._json.default_email.split('@')[1] !== conf.authenticationDomain) { return cb(new Error('Authentication domain does not match!'), null) }
         try {
           const user = await WIKI.models.users.processProfile({
             providerKey: req.params.strategy,
             profile: {
               ...profile,
-              diplayName: profile._json.real_name,
+              displayName: profile._json.real_name,
               email: profile._json.default_email,
-              picture: profile._json.is_avatar_empty
-              ? undefined
-              : profile.photos.find((item) => item.type === "thumbnail")
-                  .value,
+              picture: profile._json.is_avatar_empty ?
+                undefined :
+                profile.photos.find((item) => item.type === 'thumbnail')
+                  .value
             }
           })
-          cb(null, user)
+          return cb(null, user)
         } catch (err) {
-          cb(err, null)
+          return cb(err, null)
         }
       }
       ))
