@@ -2,12 +2,12 @@
   v-app
     .login(:style='`background-image: url(` + bgUrl + `);`')
       .login-sd
-        .d-flex.mb-5
+        .d-flex.mb-5.title-container
           .login-logo
-            v-avatar(tile, size='34')
+            v-avatar(tile, size='40')
               v-img(:src='logoUrl')
           .login-title
-            .text-h6.grey--text.text--darken-4 {{ siteTitle }}
+            .text-h6.white--text {{ siteTitle }}
         v-alert.mb-0(
           v-model='errorShown'
           transition='slide-y-reverse-transition'
@@ -85,7 +85,7 @@
               v-btn.text-none(
                 text
                 rounded
-                color='grey darken-3'
+                color='white darken-2'
                 @click.stop.prevent='forgotPassword'
                 href='#forgot'
                 ): .caption {{ $t('auth:forgotPasswordLink') }}
@@ -130,7 +130,7 @@
               v-btn.text-none(
                 text
                 rounded
-                color='grey darken-3'
+                color='white darken-2'
                 @click.stop.prevent='screen = `login`'
                 href='#forgot'
                 ): .caption {{ $t('auth:forgotPasswordCancel') }}
@@ -698,16 +698,27 @@ export default {
     background-position: center center;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+
+    .title-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     &-sd {
-      background-color: rgba(255,255,255,.8);
+      background-color: #262A33;//rgba(255,255,255,.8);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-left: 1px solid rgba(255,255,255,.85);
-      border-right: 1px solid rgba(255,255,255,.85);
+      border-left: 1px solid #16181d;
+      border-right: 1px solid #16181d;
+      border-radius: 10px;
       width: 450px;
-      height: 100%;
-      margin-left: 5vw;
+      min-height: 30%;
+      //margin-left: 5vw;
 
       @at-root .no-backdropfilter & {
         background-color: rgba(255,255,255,.95);
@@ -721,50 +732,45 @@ export default {
 
     &-logo {
       padding: 12px 0 0 12px;
-      width: 58px;
-      height: 58px;
+      width: 64px;
+      height: 64px;
       background-color: #222;
-      margin-left: 12px;
-      border-bottom-left-radius: 7px;
-      border-bottom-right-radius: 7px;
     }
 
     &-title {
-      height: 58px;
+      height: 64px;
       padding-left: 12px;
       display: flex;
       align-items: center;
-      text-shadow: .5px .5px #FFF;
+      color: #fff !important;
     }
 
     &-subtitle {
       padding: 24px 12px 12px 12px;
-      color: #111;
+      color: #fff !important;
       font-weight: 500;
-      text-shadow: 1px 1px rgba(255,255,255,.5);
-      background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.15));
+      //background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.15));
       text-align: center;
-      border-bottom: 1px solid rgba(0,0,0,.3);
     }
 
     &-info {
-      border-top: 1px solid rgba(255,255,255,.85);
+      //border-top: 1px solid rgba(255,255,255,.85);
       background-color: rgba(255,255,255,.15);
       border-bottom: 1px solid rgba(0,0,0,.15);
       padding: 12px;
       font-size: 13px;
       text-align: center;
-      color: mc('grey', '900');
+      color: #fff;
     }
 
     &-list {
-      border-top: 1px solid rgba(255,255,255,.85);
+      //border-top: 1px solid rgba(255,255,255,.85);
       padding: 12px;
     }
 
     &-form {
       padding: 12px;
-      border-top: 1px solid rgba(255,255,255,.85);
+      //border-top: 1px solid rgba(255,255,255,.85);
     }
 
     &-main {
